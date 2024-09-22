@@ -25,6 +25,7 @@ You can install the dependencies using `pip`:
 ```bash
 pip install torch numpy
 
+
 ## Code Structure
 - **TextDataset**: A PyTorch dataset that prepares the input text for training by converting it into sequences of character indices.
 - **TextGeneratorModel**: The LSTM-based model that takes input sequences and generates character predictions.
