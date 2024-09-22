@@ -46,6 +46,7 @@ To run this project, clone the repository and run the following command,
 
 ```bash
 python main.py
+```
 
 License
 This project is licensed under the GNU License.
