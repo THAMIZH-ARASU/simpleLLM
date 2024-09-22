@@ -92,6 +92,6 @@ if __name__ == "__main__":
     print(f"Model saved to {model_path}")
 
     model.load_state_dict(torch.load(model_path))
-    start_text = "Mrs. Bennet was very"
+    start_text = input("Enter the text relevant to the input text: ")
     generated_text = generate_text(model, start_text, 100, device, dataset.idx_to_char, dataset.char_to_idx)
     print(f"Generated text: {generated_text}")
