@@ -4,7 +4,6 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, Dataset
 import numpy as np
 
-# 1. Prepare the Dataset
 class TextDataset(Dataset):
     def __init__(self, text, seq_length):
         chars = sorted(set(text))
@@ -23,7 +22,6 @@ class TextDataset(Dataset):
             torch.tensor(self.data[idx + 1:idx + self.seq_length + 1])
         )
 
-# 2. Define the Model
 class TextGeneratorModel(nn.Module):
     def __init__(self, vocab_size, embed_size, hidden_size):
         super(TextGeneratorModel, self).__init__()
@@ -37,7 +35,6 @@ class TextGeneratorModel(nn.Module):
         out = self.fc(out)
         return out, hidden
 
-# 3. Training Function
 def train_model(model, data_loader, num_epochs, device):
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters())
@@ -56,7 +53,6 @@ def train_model(model, data_loader, num_epochs, device):
 
         print(f"Epoch {epoch+1}/{num_epochs}, Loss: {epoch_loss / len(data_loader):.4f}")
 
-# 4. Text Generation Function
 def generate_text(model, start_text, gen_length, device, idx_to_char, char_to_idx):
     model.eval()  # Set the model to evaluation mode
     input_seq = torch.tensor([char_to_idx[ch] for ch in start_text], dtype=torch.long).unsqueeze(0).to(device)
@@ -74,9 +70,7 @@ def generate_text(model, start_text, gen_length, device, idx_to_char, char_to_id
 
     return generated_text
 
-# Main script
 if __name__ == "__main__":
-    # 5. Load Data
     text = """
 It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.
 However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families, that he is considered the rightful property of some one or other of their daughters.
@@ -114,7 +108,6 @@ Is he married or single?"
 Mr. Bennet was so odd a mixture of quick parts, sarcastic humour, reserve, and caprice, that the experience of three-and-twenty years had been insufficient to make his wife understand his character. Her mind was less difficult to develop. She was a woman of mean understanding, little information, and uncertain temper. When she was discontented, she fancied herself nervous. The business of her life was to get her daughters married; its solace was visiting and news.
 """
 
-# Now you can use this text in your script.
 
 
     seq_length = 50
@@ -122,22 +115,18 @@ Mr. Bennet was so odd a mixture of quick parts, sarcastic humour, reserve, and c
     dataset = TextDataset(text, seq_length)
     data_loader = DataLoader(dataset, batch_size=64, shuffle=True)
 
-    # 6. Model Parameters
     embed_size = 128
     hidden_size = 256
     num_epochs = 50
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # 7. Initialize and Train Model
     model = TextGeneratorModel(dataset.vocab_size, embed_size, hidden_size).to(device)
     train_model(model, data_loader, num_epochs, device)
 
-    # 8. Save the Model
     model_path = "text_generator_model.pth"
     torch.save(model.state_dict(), model_path)
     print(f"Model saved to {model_path}")
 
-    # 9. Load the Model and Generate Text
     model.load_state_dict(torch.load(model_path))
     start_text = "Mrs. Bennet was very"
     generated_text = generate_text(model, start_text, 100, device, dataset.idx_to_char, dataset.char_to_idx)
