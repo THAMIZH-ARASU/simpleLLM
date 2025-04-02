@@ -1,4 +1,9 @@
+"""This File is a Example Helper file which holds some text Data for the generator
 
+Contains the variable (input_t) which has the Text for which the generator model will be trained and inferenced for use.
+The text can be changed according to the user willingness to train and test this simple LSTM-based neural network model.
+
+"""
 input_t = """
 It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.
 However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families, that he is considered the rightful property of some one or other of their daughters.
